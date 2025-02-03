@@ -44,7 +44,93 @@ const timelineItems = [
             youtubeId: "IpqG4x7QjZE"
         }
     },
- 
+    {
+        date: "November 07, 2021",
+        title: "Diwali celebrations",
+        description: "@ Badarikashrama temple, San Leandro.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "uiAqMpWNgJU"
+        }
+    },    
+    {
+        date: "October 16, 2020",
+        title: "Navarathri Concerts",
+        description: "Performed 3 songs online.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "gQPw6759r_g"
+        }
+    },    
+    {
+        date: "October 20, 2019",
+        title: "PrabhRti",
+        description: "Graduation from intermediate to advanced level in Carnatic music learning. Performed 3 songs with accompaniments.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "8ptP-0d5-HQ"
+        }
+    },
+    {
+        date: "May 18, 2019",
+        title: "Sivan Competition",
+        description: "Won 3rd prize for our group performance.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "vjB0EQccrRo"
+        }
+    },
+    {
+        date: "April 03, 2018",
+        title: "Sivan 2018",
+        description: "Cleveland Thyagaraja Festival, participants from all over the US.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "bqDEPEp9Uhw"
+        }
+    },
+    {
+        date: "April 14, 2017",
+        title: "Sivanum Sivakumariyum",
+        description: "Cleveland Thyagaraja Festival, participants from all over the US.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "ePIW6XKObFs"
+        }
+    },
+    {
+        date: "March 27, 2016",
+        title: "Carnatic Symphony 2016",
+        description: "Cleveland Thyagaraja Festival, participants from all over the US.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "hrF-olEOaM4"
+        }
+    },
+    {
+        date: "April 07, 2015",
+        title: "Carnatic Symphony 2015",
+        description: "Cleveland Thyagaraja Festival, participants from all over the US.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "bFgkgDzFia4"
+        }
+    },
+    {
+        date: "October 19, 2013",
+        title: "Vijayadasami 2013",
+        description: "My first on-stage vocal recital.",
+        type: "youtube", // or "image"
+        media: {
+            youtubeId: "KPXItJKmdh0"
+        }
+    },
+    {
+        date: "October, 2012",
+        title: "Start of my music journey",
+        description: "Joined Shruthi Swara Laya and started learning south indian classical music, Carnatic. Music teacher (Guru) : Mrs. Anu Suresh.",
+        type: "text", // or "image" or "youtube"
+    },
     // {
     //     date: "March 1, 2024",
     //     title: "International Expansion",
@@ -57,82 +143,3 @@ const timelineItems = [
     // }
 ];
 
-// Function to create a YouTube container
-function createYoutubeContainer(youtubeId, duration) {
-    return `
-        <a href="https://www.youtube.com/watch?v=${youtubeId}" 
-           class="youtube-container"
-           target="_blank"
-           rel="noopener noreferrer">
-            <picture>
-                <!-- Try maxresdefault first -->
-                <source srcset="https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg" media="(min-width: 1px)"/>
-                <!-- Then try hqdefault -->
-                <source srcset="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" media="(min-width: 1px)"/>
-                <!-- Finally, use mqdefault as last resort -->
-                <img src="https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg" 
-                    alt="" 
-                    class="youtube-thumbnail"
-                    onerror="this.onerror=null; this.src='/api/placeholder/400/300'; this.classList.add('fallback');"/>
-            </picture>
-            <div class="youtube-play-button"></div>
-            <div class="youtube-title">Watch on YouTube</div>           
-        </a>
-    `;
-}
-
-// Function to create an image container
-function createImageContainer(src, alt) {
-    return `<img src="${src}" alt="${alt || 'Timeline image'}">`;
-}
-
-// Function to create a timeline item
-function createTimelineItem(item, index) {
-    const position = index % 2 === 0 ? 'right' : 'left';
-    const mediaContent = item.type === 'youtube' 
-        ? createYoutubeContainer(item.media.youtubeId, item.media.duration)
-        : createImageContainer(item.media.src, item.media.alt);
-
-    return `
-        <div class="timeline-item ${position}">
-            <div class="content">
-                <div class="date">${item.date}</div>
-                <h3 class="title">${item.title}</h3>
-                <p class="description">${item.description}</p>
-                <div class="media">
-                    ${mediaContent}
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-// Function to render the entire timeline
-function renderTimeline(items, containerId = 'timeline-container') {
-    const container = document.getElementById(containerId);
-    if (!container) {
-        console.error(`Container with id '${containerId}' not found`);
-        return;
-    }
-
-    const timelineHTML = items.map((item, index) => createTimelineItem(item, index)).join('');
-    container.innerHTML = timelineHTML;
-}
-
-// Function to add a new timeline item
-function addTimelineItem(item, containerId = 'timeline-container') {
-    const container = document.getElementById(containerId);
-    if (!container) {
-        console.error(`Container with id '${containerId}' not found`);
-        return;
-    }
-
-    const currentItems = container.children.length;
-    const newItemHTML = createTimelineItem(item, currentItems);
-    container.insertAdjacentHTML('beforeend', newItemHTML);
-}
-
-// Function to add multiple timeline items
-function addTimelineItems(items, containerId = 'timeline-container') {
-    items.forEach(item => addTimelineItem(item, containerId));
-}
